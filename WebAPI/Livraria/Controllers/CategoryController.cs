@@ -7,6 +7,7 @@ using Livraria.Data;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Livraria.Controllers
 {
@@ -24,6 +25,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> PostCategories(
             [FromServices] DataContext context, [FromBody] Category category)
         {
@@ -40,6 +42,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("update/{id:int}")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> UpdateCategories([FromServices] DataContext context,
         [FromBody] Category category, int id)
         {
@@ -56,6 +59,7 @@ namespace Livraria.Controllers
 
         [HttpDelete]
         [Route("delete/{id:int}")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> DeleteCategory ([FromServices] DataContext context, int id)
         {
             var category = context.Books.FirstOrDefault(c => c.CategoryId == id);

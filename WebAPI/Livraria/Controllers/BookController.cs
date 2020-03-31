@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Livraria.Controllers
 {
@@ -24,6 +25,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Book>> PostBooks([FromServices] DataContext context,
         [FromBody] Book book)
         {
@@ -39,6 +41,7 @@ namespace Livraria.Controllers
 
         [HttpDelete]
         [Route("delete/{id:int}")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Book>> DeleteBooks([FromServices] DataContext context, int id)
         {
             var book = await context.Books.FindAsync(id);
@@ -52,6 +55,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("update/{id:int}")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Book>> UpdateBooks([FromServices] DataContext context,
         [FromBody] Book book, int id)
         {

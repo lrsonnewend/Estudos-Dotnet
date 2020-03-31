@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Livraria.Controllers
 {
@@ -17,13 +19,18 @@ namespace Livraria.Controllers
         [Route("")]
         public async Task<ActionResult<List<StatusBook>>> GetStatusBook([FromServices] DataContext context)
         {
-            var statusBook = await context.StatusBooks.Include(s => s.Status).Include(b => b.Book).ToListAsync();
+            var statusBook = await context.StatusBooks
+            .Include(s => s.Status)
+            .Include(b => b.Book)
+            .ThenInclude(c =>c.Category)
+            .ToListAsync();
 
             return statusBook;
         }
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<StatusBook>> PostCategories(
             [FromServices] DataContext context, [FromBody] StatusBook model)
         {
@@ -41,6 +48,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("change/{id:int}")]
+        [Authorize]
         public async Task<ActionResult<StatusBook>> UpdateStatusBook(
             [FromServices] DataContext context, [FromBody] StatusBook model, int id)
         {
@@ -58,7 +66,8 @@ namespace Livraria.Controllers
         }
 
         [HttpGet]
-        [Route("st/{id:int}")]
+        [Route("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<List<StatusBook>>> GetStatusById([FromServices] DataContext context, int id)
         {
             var statusBook = await context.StatusBooks

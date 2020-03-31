@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Livraria.Controllers
 {
@@ -14,6 +15,7 @@ namespace Livraria.Controllers
     {
         [HttpGet]
         [Route("")]
+        [Authorize]
         public async Task<ActionResult<List<Status>>> GetStatus ([FromServices] DataContext context)
         {
             var staus = await context.Status.ToListAsync();
@@ -23,6 +25,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Status>> PostCategories(
             [FromServices] DataContext context, [FromBody] Status status)
         {
@@ -39,6 +42,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("update/{id:int}")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Status>> UpdateStatus([FromServices] DataContext context,
         [FromBody] Status status, int id)
         {
