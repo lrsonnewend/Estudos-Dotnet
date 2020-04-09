@@ -6,6 +6,8 @@ using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Livraria.ViewModels;
 
 namespace Livraria.Controllers
 {
@@ -13,14 +15,22 @@ namespace Livraria.Controllers
     [Route("/status")]
     public class StatusController : ControllerBase
     {
+        private readonly IMapper mapper;
+
+        public StatusController(IMapper mapper){
+            this.mapper = mapper;
+        }
+
         [HttpGet]
         [Route("")]
         [Authorize]
-        public async Task<ActionResult<List<Status>>> GetStatus ([FromServices] DataContext context)
+        public async Task<ActionResult<List<StatusViewModel>>> GetStatus ([FromServices] DataContext context)
         {
-            var staus = await context.Status.ToListAsync();
+            var status = await context.Status.ToListAsync();
 
-            return staus;
+            var statusViewModel = mapper.Map<List<StatusViewModel>>(status);
+
+            return statusViewModel;
         }
 
         [HttpPost]

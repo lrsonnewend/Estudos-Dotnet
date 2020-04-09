@@ -6,7 +6,8 @@ using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-
+using AutoMapper;
+using Livraria.ViewModels;
 
 namespace Livraria.Controllers
 {
@@ -14,10 +15,15 @@ namespace Livraria.Controllers
     [Route("/statusbook")]
     public class StatusBookController : ControllerBase
     {
+        private readonly IMapper mapper;
+
+        public StatusBookController(IMapper mapper){
+            this.mapper = mapper;
+        }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<StatusBook>>> GetStatusBook([FromServices] DataContext context)
+        public async Task<ActionResult<List<StatusBookViewModel>>> GetStatusBook([FromServices] DataContext context)
         {
             var statusBook = await context.StatusBooks
             .Include(s => s.Status)
@@ -25,7 +31,10 @@ namespace Livraria.Controllers
             .ThenInclude(c =>c.Category)
             .ToListAsync();
 
-            return statusBook;
+            var statusBookViewModel = mapper.Map<List<StatusBookViewModel>>(statusBook);
+
+            return Ok(statusBookViewModel);
+
         }
 
         [HttpPost]

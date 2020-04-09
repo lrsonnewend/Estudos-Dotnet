@@ -7,7 +7,9 @@ using Livraria.Data;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Livraria.ViewModels;
 
 namespace Livraria.Controllers
 {
@@ -15,12 +17,20 @@ namespace Livraria.Controllers
     [Route("/category")]
     public class CategoryController : ControllerBase
     {
+        private readonly IMapper mapper;
+
+        public CategoryController(IMapper mapper){
+            this.mapper = mapper;
+        }
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Category>>> GetCategories ([FromServices] DataContext context)
+        public async Task<ActionResult<List<CategoryViewModel>>> GetCategories ([FromServices] DataContext context)
         {
             var categories = await context.Categories.ToListAsync();
-            return categories;
+
+            var categoryViewModel = mapper.Map<List<CategoryViewModel>>(categories);
+            
+            return Ok(categoryViewModel);
         }
 
         [HttpPost]

@@ -297,3 +297,5 @@
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Tokens.dll
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/System.IdentityModel.Tokens.Jwt.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/AutoMapper.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

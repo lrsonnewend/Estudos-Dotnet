@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "KyGXyGS1LUNczJAFBf3zDvaM5vAmAX5o/62WU3z81+7pvs46qtzHQmr/W61OWJx4N9CB3GF+VKv1IkLxSBxLLA==",
+  "dgSpecHash": "5Diof//fyHM9L8aj9+iuGgVdN08TBUcHxq6e2SfLjG/3Uuf6YyiNCqjYl0f6OHbqT/Y+PiumG0Moukhhf38kUQ==",
   "success": true,
   "projectFilePath": "/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/Livraria.csproj",
   "expectedPackageFiles": [
+    "/home/lucas_cardoso/.nuget/packages/automapper/9.0.0/automapper.9.0.0.nupkg.sha512",
+    "/home/lucas_cardoso/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/7.0.0/automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
     "/home/lucas_cardoso/.nuget/packages/microsoft.aspnetcore.authentication/2.2.0/microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "/home/lucas_cardoso/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "/home/lucas_cardoso/.nuget/packages/microsoft.aspnetcore.authentication.core/2.2.0/microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",

@@ -6,6 +6,9 @@ using Livraria.Models;
 using Livraria.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Livraria.ViewModels;
+using Livraria.Services;
 
 namespace Livraria.Controllers
 {
@@ -13,14 +16,22 @@ namespace Livraria.Controllers
     [Route("/book")]
     public class BookController : ControllerBase
     {
+        private readonly IMapper mapper;
+
+        public BookController(IMapper mapper){
+            this.mapper = mapper;
+        }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Book>>> GetBooks([FromServices] DataContext context){
+        public async Task<ActionResult<List<BookViewModel>>> GetBooks([FromServices] DataContext context){
             var books = await context.Books
             .Include(c => c.Category)
             .ToListAsync();
-            return books;
+
+            var bookViewModel = mapper.Map<List<BookViewModel>>(books);
+            
+            return Ok(bookViewModel);
         }
 
         [HttpPost]
