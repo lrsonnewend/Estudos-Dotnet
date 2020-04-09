@@ -17,17 +17,18 @@ namespace Livraria.Controllers
     public class BookController : ControllerBase
     {
         private readonly IMapper mapper;
-
-        public BookController(IMapper mapper){
+        private  readonly BookService bookService;
+    
+        public BookController(IMapper mapper, BookService bookService){
             this.mapper = mapper;
+            this.bookService = bookService;
         }
 
         [HttpGet]
         [Route("")]
         public async Task<ActionResult<List<BookViewModel>>> GetBooks([FromServices] DataContext context){
-            var books = await context.Books
-            .Include(c => c.Category)
-            .ToListAsync();
+
+            var books = await bookService.ListBooks();
 
             var bookViewModel = mapper.Map<List<BookViewModel>>(books);
             
@@ -41,9 +42,7 @@ namespace Livraria.Controllers
         [FromBody] Book book)
         {
             if(ModelState.IsValid){
-                context.Books.Add(book);
-                await context.SaveChangesAsync();
-                return book;
+               return await bookService.CreateBook(book);
             }
 
             else
@@ -55,11 +54,7 @@ namespace Livraria.Controllers
         [Authorize(Roles = "root")]
         public async Task<ActionResult<Book>> DeleteBooks([FromServices] DataContext context, int id)
         {
-            var book = await context.Books.FindAsync(id);
-
-            context.Books.Remove(book);
-            
-            await context.SaveChangesAsync();
+            var book = await bookService.DeleteBook(id);
 
             return book;
         }
@@ -70,30 +65,16 @@ namespace Livraria.Controllers
         public async Task<ActionResult<Book>> UpdateBooks([FromServices] DataContext context,
         [FromBody] Book book, int id)
         {
-            var updateBook = context.Books.FirstOrDefault(item => item.BookId == id);
-
-            if(updateBook != null){
-                updateBook.Author = book.Author;
-                updateBook.CategoryId = book.CategoryId;
-                updateBook.Title = book.Title;
-                updateBook.Price = book.Price;
-                context.Update(updateBook);
-                await context.SaveChangesAsync();
-            }
+            var updateBook = await bookService.UpdateBook(book, id);
 
             return updateBook;
-            
         }
 
         [HttpGet]
         [Route("cat/{id:int}")]
         public async Task<ActionResult<List<Book>>> GetBooksByCat([FromServices] DataContext context, int id)
         {
-            var books = await context.Books
-            .Include(c => c.Category)
-            .AsNoTracking()
-            .Where(c => c.CategoryId == id)
-            .ToListAsync();
+            var books = await bookService.GetByCategory(id);
 
             return books;
         }

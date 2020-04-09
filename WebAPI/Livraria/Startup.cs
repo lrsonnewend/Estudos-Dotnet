@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Livraria.Data;
 using AutoMapper;
+using Livraria.Services;
 
 namespace Livraria
 {
@@ -32,6 +33,11 @@ namespace Livraria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            
+            services.AddScoped<BookService>();
+
+            services.AddScoped<CategoryService>();
+            services.AddScoped<StatusService>();
             
             services.AddCors();
             

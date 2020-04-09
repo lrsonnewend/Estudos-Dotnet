@@ -10,6 +10,7 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Livraria.ViewModels;
+using Livraria.Services;
 
 namespace Livraria.Controllers
 {
@@ -18,15 +19,18 @@ namespace Livraria.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly CategoryService categoryService;
 
-        public CategoryController(IMapper mapper){
+        public CategoryController(IMapper mapper, CategoryService categoryService){
             this.mapper = mapper;
+            this.categoryService = categoryService;
         }
+
         [HttpGet]
         [Route("")]
         public async Task<ActionResult<List<CategoryViewModel>>> GetCategories ([FromServices] DataContext context)
         {
-            var categories = await context.Categories.ToListAsync();
+            var categories = await categoryService.ListCategory();
 
             var categoryViewModel = mapper.Map<List<CategoryViewModel>>(categories);
             
@@ -35,19 +39,16 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
-        [Authorize(Roles = "root")]
+        /* [Authorize(Roles = "root")] */
         public async Task<ActionResult<Category>> PostCategories(
             [FromServices] DataContext context, [FromBody] Category category)
         {
             if(ModelState.IsValid){
-                context.Categories.Add(category);
-                await context.SaveChangesAsync();
-                return category;
+                return await categoryService.CreateCategory(category);
             }
 
             else
                 return BadRequest(ModelState);
-            
         }
 
         [HttpPut]
@@ -56,35 +57,15 @@ namespace Livraria.Controllers
         public async Task<ActionResult<Category>> UpdateCategories([FromServices] DataContext context,
         [FromBody] Category category, int id)
         {
-            var updateCat = context.Categories.FirstOrDefault(item => item.CategoryId == id);
-
-            if(updateCat != null){
-                updateCat.Name = category.Name;
-                context.Update(updateCat);
-                await context.SaveChangesAsync();
-            }
-
-            return updateCat;     
+            return await categoryService.UpdateCategory(category, id);     
         }
 
         [HttpDelete]
         [Route("delete/{id:int}")]
-        [Authorize(Roles = "root")]
+        //[Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> DeleteCategory ([FromServices] DataContext context, int id)
         {
-            var category = context.Books.FirstOrDefault(c => c.CategoryId == id);
-
-            if(category != null){
-                return Content("Esta categoria contém livros cadastrados!");
-            }
-
-            var delCategory = await context.Categories.FindAsync(id);
-
-            context.Categories.Remove(delCategory);
-        
-            await context.SaveChangesAsync();
-
-            return delCategory;
+            return await categoryService.DeleteCategory(id);
         }
     }
 }
