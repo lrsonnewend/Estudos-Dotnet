@@ -37,7 +37,10 @@ namespace Livraria
             services.AddScoped<BookService>();
 
             services.AddScoped<CategoryService>();
+
             services.AddScoped<StatusService>();
+
+            services.AddScoped<StatusBookService>();
             
             services.AddCors();
             

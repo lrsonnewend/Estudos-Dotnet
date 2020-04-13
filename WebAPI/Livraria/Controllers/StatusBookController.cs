@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Livraria.ViewModels;
+using Livraria.Services;
 
 namespace Livraria.Controllers
 {
@@ -17,19 +18,18 @@ namespace Livraria.Controllers
     {
         private readonly IMapper mapper;
 
-        public StatusBookController(IMapper mapper){
+        private readonly StatusBookService statusBookService;
+
+        public StatusBookController(IMapper mapper, StatusBookService statusBookService){
             this.mapper = mapper;
+            this.statusBookService = statusBookService;
         }
 
         [HttpGet]
         [Route("")]
         public async Task<ActionResult<List<StatusBookViewModel>>> GetStatusBook([FromServices] DataContext context)
         {
-            var statusBook = await context.StatusBooks
-            .Include(s => s.Status)
-            .Include(b => b.Book)
-            .ThenInclude(c =>c.Category)
-            .ToListAsync();
+            var statusBook = await statusBookService.ListStatusBook();
 
             var statusBookViewModel = mapper.Map<List<StatusBookViewModel>>(statusBook);
 
@@ -45,9 +45,7 @@ namespace Livraria.Controllers
         {
             if (ModelState.IsValid)
             {
-                context.StatusBooks.Add(model);
-                await context.SaveChangesAsync();
-                return model;
+                return await statusBookService.CreateStatusBook(model);
             }
 
             else
@@ -61,17 +59,9 @@ namespace Livraria.Controllers
         public async Task<ActionResult<StatusBook>> UpdateStatusBook(
             [FromServices] DataContext context, [FromBody] StatusBook model, int id)
         {
-            var UpdateStatusBook = context.StatusBooks.FirstOrDefault(s => s.StatusBookId == id);
 
-            if (UpdateStatusBook != null){
-                UpdateStatusBook.BookId = model.BookId;
-                UpdateStatusBook.StatusId = model.StatusId;
-                context.Update(UpdateStatusBook);
-                await context.SaveChangesAsync();
-            }
-
-            return UpdateStatusBook;           
-
+            return await statusBookService.UpdateStatusBook(model, id);           
+        
         }
 
         [HttpGet]
@@ -79,14 +69,7 @@ namespace Livraria.Controllers
         [Authorize]
         public async Task<ActionResult<List<StatusBook>>> GetStatusById([FromServices] DataContext context, int id)
         {
-            var statusBook = await context.StatusBooks
-            .Include(b => b.Book).ThenInclude(c => c.Category)
-            .Include(s => s.Status)
-            .AsNoTracking()
-            .Where(s => s.StatusId == id)
-            .ToListAsync();
-
-            return statusBook;
+            return await statusBookService.GetStatusBoodById(id);
         }
     }
 }

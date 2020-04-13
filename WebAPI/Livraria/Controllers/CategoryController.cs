@@ -39,7 +39,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
-        /* [Authorize(Roles = "root")] */
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> PostCategories(
             [FromServices] DataContext context, [FromBody] Category category)
         {
@@ -62,7 +62,7 @@ namespace Livraria.Controllers
 
         [HttpDelete]
         [Route("delete/{id:int}")]
-        //[Authorize(Roles = "root")]
+        [Authorize(Roles = "root")]
         public async Task<ActionResult<Category>> DeleteCategory ([FromServices] DataContext context, int id)
         {
             return await categoryService.DeleteCategory(id);
