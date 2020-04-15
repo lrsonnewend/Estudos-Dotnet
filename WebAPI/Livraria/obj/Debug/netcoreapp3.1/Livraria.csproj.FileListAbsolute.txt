@@ -299,3 +299,8 @@
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/System.IdentityModel.Tokens.Jwt.dll
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/AutoMapper.dll
 /home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.Internal.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Identity.Core.dll
+/home/lucas_cardoso/Área de Trabalho/Estudos-Dotnet/WebAPI/Livraria/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Identity.Stores.dll

@@ -39,7 +39,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
-        [Authorize(Roles = "root")]
+        [Authorize]
         public async Task<ActionResult<Category>> PostCategories(
             [FromServices] DataContext context, [FromBody] Category category)
         {

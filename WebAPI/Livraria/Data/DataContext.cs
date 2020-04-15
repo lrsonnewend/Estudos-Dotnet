@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Livraria.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Livraria.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options): base(options)
         {

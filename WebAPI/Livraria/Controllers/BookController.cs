@@ -26,6 +26,7 @@ namespace Livraria.Controllers
 
         [HttpGet]
         [Route("")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<BookViewModel>>> GetBooks([FromServices] DataContext context){
 
             var books = await bookService.ListBooks();
@@ -37,7 +38,6 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
-        [Authorize(Roles = "root")]
         public async Task<ActionResult<Book>> PostBooks([FromServices] DataContext context,
         [FromBody] Book book)
         {
