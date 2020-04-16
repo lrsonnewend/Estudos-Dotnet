@@ -26,7 +26,7 @@ namespace Livraria.Controllers
 
         [HttpGet]
         [Route("")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult<List<BookViewModel>>> GetBooks([FromServices] DataContext context){
 
             var books = await bookService.ListBooks();
@@ -38,6 +38,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Book>> PostBooks([FromServices] DataContext context,
         [FromBody] Book book)
         {
@@ -51,7 +52,7 @@ namespace Livraria.Controllers
 
         [HttpDelete]
         [Route("delete/{id:int}")]
-        [Authorize(Roles = "root")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Book>> DeleteBooks([FromServices] DataContext context, int id)
         {
             var book = await bookService.DeleteBook(id);
@@ -61,7 +62,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("update/{id:int}")]
-        [Authorize(Roles = "root")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Book>> UpdateBooks([FromServices] DataContext context,
         [FromBody] Book book, int id)
         {
@@ -72,6 +73,7 @@ namespace Livraria.Controllers
 
         [HttpGet]
         [Route("cat/{id:int}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<List<Book>>> GetBooksByCat([FromServices] DataContext context, int id)
         {
             var books = await bookService.GetByCategory(id);

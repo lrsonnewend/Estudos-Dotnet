@@ -28,6 +28,7 @@ namespace Livraria.Controllers
 
         [HttpGet]
         [Route("")]
+        [Authorize]
         public async Task<ActionResult<List<CategoryViewModel>>> GetCategories ([FromServices] DataContext context)
         {
             var categories = await categoryService.ListCategory();
@@ -39,7 +40,7 @@ namespace Livraria.Controllers
 
         [HttpPost]
         [Route("")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> PostCategories(
             [FromServices] DataContext context, [FromBody] Category category)
         {
@@ -53,7 +54,7 @@ namespace Livraria.Controllers
 
         [HttpPut]
         [Route("update/{id:int}")]
-        [Authorize(Roles = "root")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> UpdateCategories([FromServices] DataContext context,
         [FromBody] Category category, int id)
         {
@@ -62,7 +63,7 @@ namespace Livraria.Controllers
 
         [HttpDelete]
         [Route("delete/{id:int}")]
-        [Authorize(Roles = "root")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> DeleteCategory ([FromServices] DataContext context, int id)
         {
             return await categoryService.DeleteCategory(id);

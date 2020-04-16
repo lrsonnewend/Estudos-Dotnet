@@ -14,9 +14,9 @@ using Livraria.Data;
 namespace Livraria.Controllers
 {
     [Route("/admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
-    {
-        
+    { 
         private readonly RoleManager<IdentityRole> roleManager;
         
         private readonly UserManager<IdentityUser> userManager;
@@ -29,7 +29,6 @@ namespace Livraria.Controllers
         
         [HttpPost]
         [Route("role")]
-        [AllowAnonymous]
         public async Task<ActionResult<CreateRoleViewModel>> CreateRole([FromBody] CreateRoleViewModel model)
         {
             if(ModelState.IsValid){
